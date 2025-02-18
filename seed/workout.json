@@ -1,0 +1,36 @@
+[
+  {
+    "workoutDate": "2025-01-15",
+    "exercises": [
+      "Bodyweight Squats",
+      "Push-Ups",
+      "Dumbbell Shoulder Press",
+      "Bent-Over Rows"
+    ]
+  },
+  {
+    "workoutDate": "2025-01-16",
+    "exercises": ["Jump Rope", "Burpees", "High Knees", "Mountain Climbers"]
+  },
+  {
+    "workoutDate": "2025-01-17",
+    "exercises": ["Jump Squats", "Lunges", "Bodyweight Squats", "Burpees"]
+  },
+  {
+    "workoutDate": "2025-01-18",
+    "exercises": [
+      "Push-Ups",
+      "Dumbbell Shoulder Press",
+      "Bent-Over Rows",
+      "Plank Hold"
+    ]
+  },
+  {
+    "workoutDate": "2025-01-19",
+    "exercises": ["Plank Hold", "Push-Ups", "Lunges", "Jump Squats"]
+  },
+  {
+    "workoutDate": "2025-02-03",
+    "exercises": ["Plank Hold", "Push-Ups", "Lunges", "Jump Squats"]
+  }
+]
