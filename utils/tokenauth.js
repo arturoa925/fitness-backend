@@ -15,5 +15,4 @@ const tokenauth = (req, res, next) => {
     next();
   });
 };
-
 module.exports = tokenauth;
