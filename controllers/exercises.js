@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { Users, Exercise, Workout } = require("../models");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const sequelize = require("../config/connection");
 const tokenauth = require("../utils/tokenauth");
 require("dotenv").config();
