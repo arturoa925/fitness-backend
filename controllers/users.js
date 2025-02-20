@@ -8,33 +8,33 @@ require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// * Create a new user
 router.post("/signup", async (req, res) => {
-
-    const transaction = await sequelize.transaction();
+  const transaction = await sequelize.transaction();
 
   try {
-
-    const {name, email, password} = req.body;
+    const { name, email, password } = req.body;
     console.log("Request Body:", req.body);
 
     if (!name || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-     // * Check if user already exists
-     const existingUser = await Users.findOne({ where: { email } });
-     if (existingUser) {
-         return res.status(400).json({ message: "User already exists" });
-     }
+    // * Check if user already exists
+    const existingUser = await Users.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-    const newUser = await Users.create({
-      id: uuidv4(),
-      name: name,
-      email: email,
-      password: password,
-    },
-    { transaction }
-);
+    const newUser = await Users.create(
+      {
+        id: uuidv4(),
+        name: name,
+        email: email,
+        password: password,
+      },
+      { transaction }
+    );
 
     await transaction.commit();
 
@@ -53,6 +53,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// * Login user
 router.post("/login", async (req, res) => {
   try {
     console.log("Request Body:", req.body);
@@ -69,7 +70,10 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
 
     if (!validPassword) {
       return res.status(400).json({ message: "Invalid password" });
@@ -89,13 +93,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// * Logout user
 router.post("/logout", tokenauth, async (req, res) => {
-    try {
-        res.status(200).json({ message: "Logged out" });
-    } catch (err) {
-        console.error("Error logging out:", err);
-        res.status(400).json(err);
-    }
-    });
+  try {
+    res.status(200).json({ message: "Logged out" });
+  } catch (err) {
+    console.error("Error logging out:", err);
+    res.status(400).json(err);
+  }
+});
 
 module.exports = router;

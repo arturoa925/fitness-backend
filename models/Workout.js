@@ -11,7 +11,7 @@ Workout.init(
             primaryKey: true,
         },
         workoutDate: {
-            type: DataTypes.STRING, // Store as "YYYY-MM-DD"
+            type: DataTypes.STRING, 
             allowNull: false,
           },
     },

@@ -9,9 +9,10 @@ const { v4: uuidv4 } = require("uuid");
 const JWT_SECRET = process.env.JWT_SECRET;
 const { Op } = require("sequelize");
 
+// * create a new workout for today
 router.post("/dailyworkout", async (req, res) => {
   try {
-    const { user_id } = req.body; // Extract user ID
+    const { user_id } = req.body;
 
     if (!user_id) {
       return res.status(400).json({ message: "User ID is required" });
@@ -22,8 +23,8 @@ router.post("/dailyworkout", async (req, res) => {
 
     let workout = await Workout.findOne({
       where: {
-        user_id, // Filter by user
-        workoutDate: todayDate, // 🔥 Match by clean date format
+        user_id,
+        workoutDate: todayDate,
       },
       include: [{ model: Exercise }],
     });
@@ -46,11 +47,6 @@ router.post("/dailyworkout", async (req, res) => {
     const shuffledExercises = allExercises.sort(() => 0.5 - Math.random());
     const selectedExercises = shuffledExercises.slice(0, workoutSize);
 
-    console.log(
-      "✅ Selected Exercises:",
-      selectedExercises.map((e) => `${e.id} - ${e.name}`)
-    );
-
     // * Create a new workout for today
     workout = await Workout.create({
       id: uuidv4(),
@@ -60,8 +56,7 @@ router.post("/dailyworkout", async (req, res) => {
       updatedAt: new Date(),
     });
 
-    await workout.reload(); // Ensure Sequelize refreshes the instance
-    console.log("✅ Workout ID:", workout.id);
+    await workout.reload();
 
     if (!workout.id) {
       return res
@@ -75,7 +70,7 @@ router.post("/dailyworkout", async (req, res) => {
     // * Retrieve the newly created workout with exercises
     const newWorkout = await Workout.findOne({
       where: { id: workout.id },
-      include: [{ model: Exercise, through: { attributes: [] } }], // Ensure it's using the join table
+      include: [{ model: Exercise, through: { attributes: [] } }],
     });
 
     res
@@ -87,11 +82,12 @@ router.post("/dailyworkout", async (req, res) => {
   }
 });
 
+// * Get a workout for a specific date
 router.post("/workoutdate", async (req, res) => {
   try {
     console.log("Request Body:", req.body);
 
-    const { date, user_id } = req.body; // Extract the selected date from the request
+    const { date, user_id } = req.body;
 
     if (!date || !user_id) {
       return res.status(400).json({ message: "Date and user ID are required" });
@@ -103,9 +99,8 @@ router.post("/workoutdate", async (req, res) => {
 
     const utcDate = new Date(`${date}T00:00:00Z`).toISOString().split("T")[0];
 
-    // Find a workout associated with the selected date
     const workout = await Workout.findOne({
-      where: { user_id, workoutDate: utcDate }, // 🔥 Match exact date
+      where: { user_id, workoutDate: utcDate },
       include: [{ model: Exercise }],
     });
     console.log(`Searching for workout: user_id=${user_id}, date=${utcDate}`);
@@ -149,7 +144,7 @@ router.get("/pexels", async (req, res) => {
 // * Get all exercises for a user
 router.post("/exercises", async (req, res) => {
   try {
-    const { user_id } = req.body; // Extract user ID
+    const { user_id } = req.body;
 
     if (!user_id) {
       return res.status(400).json({ message: "User ID is required" });
