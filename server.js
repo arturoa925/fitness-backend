@@ -10,7 +10,7 @@ const app = new express();
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development frontend // Deployed frontend
-  ,
+  "https://fitness-frontend-4md7.onrender.com",
 ];
 
 const corsOptions = {
